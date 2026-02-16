@@ -1,0 +1,39 @@
+package com.MahaTest.Entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Entity
+@Table(name = "test_series")
+@Data
+public class TestSeries {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name; // SSC CGL, SSC
+
+    private String examType; // T1, T2
+
+    private Integer totalMarks;
+
+    private Integer durationMinutes;
+
+    private boolean active = true;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
+
+    @OneToMany(mappedBy = "testSeries", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Subject> subjects;
+}
