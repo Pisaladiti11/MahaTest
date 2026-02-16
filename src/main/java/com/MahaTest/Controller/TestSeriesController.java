@@ -30,7 +30,7 @@ import java.util.List;
         }
 
         // ✅ Get All
-        @GetMapping("/getAllTestSeries/")
+        @GetMapping("/getAllTestSeries")
         public ResponseEntity<List<TestSeries>> getAll() {
             return ResponseEntity.ok(testSeriesService.getAllTestSeries());
         }
