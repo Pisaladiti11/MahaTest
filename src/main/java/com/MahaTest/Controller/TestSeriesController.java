@@ -22,7 +22,7 @@ import java.util.List;
         }
 
         // ✅ Update
-        @PutMapping("UpdateTestSeriesById/{id}")
+        @PutMapping("/UpdateTestSeriesById/{id}")
         public ResponseEntity<TestSeries> update(
                 @PathVariable Long id,
                 @RequestBody TestSeries testSeries) {
@@ -30,19 +30,19 @@ import java.util.List;
         }
 
         // ✅ Get All
-        @GetMapping("getAllTestSeries/")
+        @GetMapping("/getAllTestSeries/")
         public ResponseEntity<List<TestSeries>> getAll() {
             return ResponseEntity.ok(testSeriesService.getAllTestSeries());
         }
 
         // ✅ Get By Id
-        @GetMapping("GetById/{id}")
+        @GetMapping("/GetById/{id}")
         public ResponseEntity<TestSeries> getById(@PathVariable Long id) {
             return ResponseEntity.ok(testSeriesService.getTestSeriesById(id));
         }
 
         // ✅ Delete
-        @DeleteMapping("deleteTestSeries/{id}")
+        @DeleteMapping("/deleteTestSeries/{id}")
         public ResponseEntity<String> delete(@PathVariable Long id) {
             testSeriesService.deleteTestSeries(id);
             return ResponseEntity.ok("TestSeries deleted successfully");

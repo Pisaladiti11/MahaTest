@@ -22,7 +22,7 @@ public class SubjectController {
     }
 
     //  Update
-    @PutMapping("updatesubjectbyid/{id}")
+    @PutMapping("/updatesubjectbyid/{id}")
     public ResponseEntity<Subject> update(
             @PathVariable Long id,
             @RequestBody Subject subject) {
@@ -36,13 +36,13 @@ public class SubjectController {
     }
 
     //  Get By Id
-    @GetMapping("getSubjectById/{id}")
+    @GetMapping("/getSubjectById/{id}")
     public ResponseEntity<Subject> getById(@PathVariable Long id) {
         return ResponseEntity.ok(subjectService.getSubjectById(id));
     }
 
     //  Delete
-    @DeleteMapping("DeleteSubject/{id}")
+    @DeleteMapping("/DeleteSubject/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         subjectService.deleteSubject(id);
         return ResponseEntity.ok("Subject deleted successfully");

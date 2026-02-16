@@ -22,26 +22,26 @@ public class CategoryController {
     }
 
     //  Update Category
-    @PutMapping("UpdateCategory/{id}")
+    @PutMapping("/UpdateCategory/{id}")
     public Category updateCategory(@PathVariable Long id,
                                    @RequestBody Category category) {
         return categoryService.updateCategory(id, category);
     }
 
     // Get All Categories
-    @GetMapping("GetAllCategories/")
+    @GetMapping("/GetAllCategories")
     public List<Category> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
     // Get Category By ID
-    @GetMapping("GetCategoryById/{id}")
+    @GetMapping("/GetCategoryById/{id}")
     public Category getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id);
     }
 
     // Delete Category
-    @DeleteMapping("DeleteCategory/{id}")
+    @DeleteMapping("/DeleteCategory/{id}")
     public String deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
         return "Category deleted successfully";

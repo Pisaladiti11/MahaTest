@@ -36,13 +36,13 @@ public class PaperController {
     }
 
     // Get By id
-    @GetMapping("getPaperById/{id}")
+    @GetMapping("/getPaperById/{id}")
     public ResponseEntity<Paper> getById(@PathVariable Long id) {
         return ResponseEntity.ok(paperService.getPaperById(id));
     }
 
     // ✅ Delete
-    @DeleteMapping("DeletePaper/{id}")
+    @DeleteMapping("/DeletePaper/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         paperService.deletePaper(id);
         return ResponseEntity.ok("Paper deleted successfully");

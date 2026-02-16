@@ -22,7 +22,7 @@ public class QuestionController {
     }
 
     // ✅ Update
-    @PutMapping("updateQuestionById/{id}")
+    @PutMapping("/updateQuestionById/{id}")
     public ResponseEntity<Question> update(
             @PathVariable Long id,
             @RequestBody Question question) {
@@ -36,13 +36,13 @@ public class QuestionController {
     }
 
     // ✅ Get By id
-    @GetMapping("getQuestionById/{id}")
+    @GetMapping("/getQuestionById/{id}")
     public ResponseEntity<Question> getById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
 
     // ✅ Delete
-    @DeleteMapping("DeleteQuestion/{id}")
+    @DeleteMapping("/DeleteQuestion/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         questionService.deleteQuestion(id);
         return ResponseEntity.ok("Question deleted successfully");
