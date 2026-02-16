@@ -34,6 +34,8 @@ public class Question {
 
     private String explanation;
 
+    private String QuestionType;
+
     private boolean active = true;
 
     private LocalDateTime createdAt = LocalDateTime.now();

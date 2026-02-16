@@ -27,6 +27,10 @@ public class Paper {
 
     private String year;
 
+    private String description;
+
+    private String subjectQuestion;
+
     private boolean active = true;
 
     private LocalDateTime createdAt = LocalDateTime.now();

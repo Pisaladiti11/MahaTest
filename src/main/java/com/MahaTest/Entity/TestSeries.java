@@ -21,11 +21,20 @@ public class TestSeries {
 
     private String examType; // T1, T2
 
-    private Integer totalMarks;
 
     private Integer durationMinutes;
 
     private boolean active = true;
+
+    private Long mrp;
+
+    private Integer Price;
+
+    private String description;
+
+    private  Integer features;
+
+    @ManyToOne(fetch = FetchType.LAZY)
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
