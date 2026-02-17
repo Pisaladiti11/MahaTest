@@ -17,7 +17,7 @@ public class TestSeriesServiceImpl implements TestSeriesService {
     private final TestSeriesRepository testSeriesRepository;
     private final CategoryRepository categoryRepository;
 
-    // ✅ Create
+    // Create
     @Override
     public TestSeries createTestSeries(TestSeries testSeries) {
 
@@ -32,7 +32,7 @@ public class TestSeriesServiceImpl implements TestSeriesService {
         return testSeriesRepository.save(testSeries);
     }
 
-    // ✅ Update
+    // Update
     @Override
     public TestSeries updateTestSeries(Long id, TestSeries testSeries) {
 
@@ -41,7 +41,7 @@ public class TestSeriesServiceImpl implements TestSeriesService {
 
         existing.setName(testSeries.getName());
         existing.setExamType(testSeries.getExamType());
-        existing.setTotalMarks(testSeries.getTotalMarks());
+        //existing.setTotalMarks(testSeries.getTotalMarks());
         existing.setDurationMinutes(testSeries.getDurationMinutes());
         existing.setActive(testSeries.isActive());
 
@@ -55,20 +55,20 @@ public class TestSeriesServiceImpl implements TestSeriesService {
         return testSeriesRepository.save(existing);
     }
 
-    // ✅ Get All
+    // Get All
     @Override
     public List<TestSeries> getAllTestSeries() {
         return testSeriesRepository.findAll();
     }
 
-    // ✅ Get By id
+    // Get By id
     @Override
     public TestSeries getTestSeriesById(Long id) {
         return testSeriesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("TestSeries not found with id: " + id));
     }
 
-    // ✅ Delete
+    //  Delete
     @Override
     public void deleteTestSeries(Long id) {
 
