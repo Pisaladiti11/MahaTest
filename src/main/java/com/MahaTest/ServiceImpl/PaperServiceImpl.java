@@ -62,6 +62,12 @@ public class PaperServiceImpl implements PaperService {
         return paperRepository.findAll();
     }
 
+    @Override
+    public List<Paper> getPapersBySubjectId(Long subjectId) {
+        return paperRepository.findBySubjectId(subjectId);
+    }
+
+
     // Get By id
     @Override
     public Paper getPaperById(Long id) {

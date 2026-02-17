@@ -28,16 +28,13 @@ public class TestSeries {
 
     private Long mrp;
 
-    private Integer Price;
+    private Integer price;
 
     private String description;
 
-    private  Integer features;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    private  String features;
 
     private LocalDateTime createdAt = LocalDateTime.now();
-
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

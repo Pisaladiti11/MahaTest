@@ -15,13 +15,13 @@ public class PaperController {
 
     private final PaperService paperService;
 
-    // ✅ Create
+    //  Create
     @PostMapping("/CreatePaper")
     public ResponseEntity<Paper> create(@RequestBody Paper paper) {
         return ResponseEntity.ok(paperService.createPaper(paper));
     }
 
-    // ✅ Update
+    //  Update
     @PutMapping("getPaperById/{id}")
     public ResponseEntity<Paper> update(
             @PathVariable Long id,
@@ -29,11 +29,24 @@ public class PaperController {
         return ResponseEntity.ok(paperService.updatePaper(id, paper));
     }
 
-    // ✅ Get All
+    // Get All
     @GetMapping("/GetAllPapers")
     public ResponseEntity<List<Paper>> getAll() {
         return ResponseEntity.ok(paperService.getAllPapers());
     }
+
+
+
+     // GET BY SUBJECT ID
+    @GetMapping("/subject/{subjectId}")
+    public ResponseEntity<List<Paper>> getPapersBySubject(
+            @PathVariable Long subjectId) {
+
+        return ResponseEntity.ok(
+                paperService.getPapersBySubjectId(subjectId)
+        );
+    }
+
 
     // Get By id
     @GetMapping("/getPaperById/{id}")
@@ -41,7 +54,7 @@ public class PaperController {
         return ResponseEntity.ok(paperService.getPaperById(id));
     }
 
-    // ✅ Delete
+    // Delete
     @DeleteMapping("/DeletePaper/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         paperService.deletePaper(id);

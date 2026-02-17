@@ -12,6 +12,9 @@ public interface PaperService {
 
     List<Paper> getAllPapers();
 
+    List<Paper> getPapersBySubjectId(Long subjectId);
+
+
     Paper getPaperById(Long id);
 
     void deletePaper(Long id);
