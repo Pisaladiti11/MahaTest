@@ -8,35 +8,27 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 public class MahaTestRegistrationForm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, length = 10, unique = true)
+    @Column(unique = true)
     private String mobNo;
 
-    @Column(nullable = false)
+    private String password;
+
     private String medium;
-
-    @Column(nullable = false)
     private String board;
+    private String gender;
 
-    @Column(name = "student_class", nullable = false)
+    @Column(name = "student_class")
     private String studentClass;
 
-    @Column(nullable = false)
     private String school;
-
-    @Column(nullable = false)
     private String district;
-
-    @Column(nullable = false)
     private String scholarshipExam;
 }

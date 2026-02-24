@@ -2,8 +2,10 @@ package com.MahaTest.ServiceImpl;
 
 import com.MahaTest.Entity.MahaTestRegistrationForm;
 import com.MahaTest.Repository.MahaTestRegistrationRepository;
+import com.MahaTest.Security.JwtUtil;
 import com.MahaTest.Service.MahaTestRegistrationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +16,18 @@ public class MahaTestRegistrationServiceImpl
         implements MahaTestRegistrationService {
 
     private final MahaTestRegistrationRepository repository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Override
     public MahaTestRegistrationForm saveRegistration(MahaTestRegistrationForm form) {
 
-        // Duplicate mobile check
         repository.findByMobNo(form.getMobNo()).ifPresent(existing -> {
             throw new RuntimeException("Mobile number already registered!");
         });
+
+        // 🔐 Encrypt password before saving
+        form.setPassword(passwordEncoder.encode(form.getPassword()));
 
         return repository.save(form);
     }
@@ -42,5 +48,17 @@ public class MahaTestRegistrationServiceImpl
         repository.deleteById(id);
         return "Registration deleted successfully";
     }
-}
 
+    @Override
+    public String login(String mobNo, String password) {
+
+        MahaTestRegistrationForm user = repository.findByMobNo(mobNo)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid Credentials");
+        }
+
+        return jwtUtil.generateToken(mobNo);
+    }
+}

@@ -13,5 +13,7 @@ public interface MahaTestRegistrationService {
     List<MahaTestRegistrationForm> getAll();
 
     String deleteById(Long id);
+
+    String login(String mobNo, String password);
 }
 
