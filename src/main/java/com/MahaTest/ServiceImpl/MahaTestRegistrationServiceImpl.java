@@ -4,61 +4,44 @@ import com.MahaTest.Entity.MahaTestRegistrationForm;
 import com.MahaTest.Repository.MahaTestRegistrationRepository;
 import com.MahaTest.Security.JwtUtil;
 import com.MahaTest.Service.MahaTestRegistrationService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-@RequiredArgsConstructor
-public class MahaTestRegistrationServiceImpl
-        implements MahaTestRegistrationService {
+public class MahaTestRegistrationServiceImpl implements MahaTestRegistrationService {
 
-    private final MahaTestRegistrationRepository repository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private MahaTestRegistrationRepository repo;
 
-    @Override
-    public MahaTestRegistrationForm saveRegistration(MahaTestRegistrationForm form) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-        repository.findByMobNo(form.getMobNo()).ifPresent(existing -> {
-            throw new RuntimeException("Mobile number already registered!");
-        });
-
-        // 🔐 Encrypt password before saving
-        form.setPassword(passwordEncoder.encode(form.getPassword()));
-
-        return repository.save(form);
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
-    public MahaTestRegistrationForm getById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Registration not found"));
-    }
-
-    @Override
-    public List<MahaTestRegistrationForm> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
-    public String deleteById(Long id) {
-        repository.deleteById(id);
-        return "Registration deleted successfully";
+    public MahaTestRegistrationForm register(MahaTestRegistrationForm user) {
+        // Encrypt password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return repo.save(user);
     }
 
     @Override
     public String login(String mobNo, String password) {
-
-        MahaTestRegistrationForm user = repository.findByMobNo(mobNo)
+        MahaTestRegistrationForm user = repo.findByMobNo(mobNo)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid Credentials");
-        }
+        // 🔹 Debugging
+        System.out.println("DB password: " + user.getPassword());
+        System.out.println("Input password: " + password);
+        System.out.println("Password matches: " + passwordEncoder.matches(password, user.getPassword()));
 
-        return jwtUtil.generateToken(mobNo);
+        if (passwordEncoder.matches(password, user.getPassword())) {
+            return jwtUtil.generateToken(user.getMobNo());
+        } else {
+            throw new RuntimeException("Invalid password");
+        }
     }
-}
+    }
+
