@@ -30,5 +30,6 @@ public class MahaTestRegistrationForm {
 
     private String school;
     private String district;
-    private String scholarshipExam;
+    private String groupType;
+    //private String scholarshipExam;
 }
