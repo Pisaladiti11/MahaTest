@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("https://mahastudy.in")
 @RequestMapping("/feedback")
 public class FeedbackController {
 
