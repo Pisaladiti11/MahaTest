@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://mahastudy.in")
+@CrossOrigin("https://mahastudy.in/")
 @RequiredArgsConstructor
 public class QuestionController {
 
     private final QuestionService questionService;
 
-    // ✅ Create
+    //  Create
     @PostMapping("/createQuestion")
     public ResponseEntity<Question> create(@RequestBody Question question) {
         return ResponseEntity.ok(questionService.createQuestion(question));
     }
 
-    // ✅ Update
+    //  Update
     @PutMapping("/updateQuestionById/{id}")
     public ResponseEntity<Question> update(
             @PathVariable Long id,
@@ -29,19 +29,19 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.updateQuestion(id, question));
     }
 
-    // ✅ Get All
+    // Get All
     @GetMapping("/getAllQuestions")
     public ResponseEntity<List<Question>> getAll() {
         return ResponseEntity.ok(questionService.getAllQuestions());
     }
 
-    // ✅ Get By id
+    // Get By id
     @GetMapping("/getQuestionById/{id}")
     public ResponseEntity<Question> getById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
 
-    // ✅ Delete
+    //  Delete
     @DeleteMapping("/DeleteQuestion/{id}")
     public ResponseEntity<String> delete(@PathVariable Long id) {
         questionService.deleteQuestion(id);

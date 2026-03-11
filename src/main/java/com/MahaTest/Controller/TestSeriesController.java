@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
     @RestController
-   @CrossOrigin("https://mahastudy.in")
+   @CrossOrigin("https://mahastudy.in/")
     @RequiredArgsConstructor
     public class TestSeriesController {
 
         private final TestSeriesService testSeriesService;
 
-        // ✅ Create
+        // Create
         @PostMapping("/createTestSeries")
         public ResponseEntity<TestSeries> create(@RequestBody TestSeries testSeries) {
             return ResponseEntity.ok(testSeriesService.createTestSeries(testSeries));
         }
 
-        // ✅ Update
+        //  Update
         @PutMapping("/UpdateTestSeriesById/{id}")
         public ResponseEntity<TestSeries> update(
                 @PathVariable Long id,
@@ -29,19 +29,19 @@ import java.util.List;
             return ResponseEntity.ok(testSeriesService.updateTestSeries(id, testSeries));
         }
 
-        // ✅ Get All
+        //  Get All
         @GetMapping("/getAllTestSeries")
         public ResponseEntity<List<TestSeries>> getAll() {
             return ResponseEntity.ok(testSeriesService.getAllTestSeries());
         }
 
-        // ✅ Get By Id
+        //  Get By Id
         @GetMapping("/GetById/{id}")
         public ResponseEntity<TestSeries> getById(@PathVariable Long id) {
             return ResponseEntity.ok(testSeriesService.getTestSeriesById(id));
         }
 
-        // ✅ Delete
+        //  Delete
         @DeleteMapping("/deleteTestSeries/{id}")
         public ResponseEntity<String> delete(@PathVariable Long id) {
             testSeriesService.deleteTestSeries(id);

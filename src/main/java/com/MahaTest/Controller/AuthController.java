@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("https://mahastudy.in")
+@CrossOrigin("https://mahastudy.in/")
 public class AuthController {
 
     @Autowired
