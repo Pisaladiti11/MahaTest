@@ -19,21 +19,30 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
+
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        //  Public APIs
                         .requestMatchers("/login", "/register").permitAll()
-                        .requestMatchers("/login", "/register","/send-otp","/verify-otp").permitAll()
+                        .requestMatchers("/otp/send-otp", "/otp/verify-otp").permitAll()
+
+                        //  Protected APIs
                         .requestMatchers("/feedback/**").authenticated()
+
+                        //  secured
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
+
+        //  JWT Filter
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

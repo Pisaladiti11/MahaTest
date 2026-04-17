@@ -1,24 +1,31 @@
 package com.MahaTest.Controller;
 
-import com.MahaTest.Service.AuthService;
+import com.MahaTest.Service.OtpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("https://mahastudy.in/")
+@RequestMapping("/otp")
+@CrossOrigin("*")
 public class AuthController {
 
     @Autowired
-    private AuthService authService;
+    private OtpService otpService;
 
-    @PostMapping("/send-otp")
+    //  Send OTP
+    @PostMapping("/send")
     public String sendOtp(@RequestParam String mobNo) {
-        return authService.sendOtp(mobNo);
+        otpService.sendOtp(mobNo);
+        return "OTP sent successfully (check console)";
     }
 
-    @PostMapping("/verify-otp")
+    //  Verify OTP
+    @PostMapping("/verify")
     public String verifyOtp(@RequestParam String mobNo,
                             @RequestParam String otp) {
-        return authService.verifyOtp(mobNo, otp);
+
+        boolean result = otpService.verifyOtp(mobNo, otp);
+
+        return result ? "OTP Verified " : "Invalid or Expired OTP ";
     }
 }
