@@ -23,12 +23,12 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // ✅ Public endpoints list (easy to manage)
+    // Centralized public endpoints
     private static final List<String> PUBLIC_URLS = List.of(
             "/login",
             "/register",
-            "/otp/send-otp",
-            "/otp/verify-otp"
+            "/otp",
+            "/payment"
     );
 
     @Override
@@ -39,8 +39,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // Skip public APIs
-        if (PUBLIC_URLS.contains(path)) {
+        //  Skip JWT processing for public endpoints
+        if (PUBLIC_URLS.stream().anyMatch(path::startsWith)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-            //  No token
+            //  No token → continue (Spring Security will handle)
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -56,10 +56,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String token = authHeader.substring(7);
 
-            //  Extract mobile number
             String mobNo = jwtUtil.getMobNo(token);
 
-            // Validate & set authentication
             if (mobNo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 if (jwtUtil.validateToken(token, mobNo)) {
@@ -80,9 +78,10 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            // : Handle invalid token gracefully
+            //  Clean error handling
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Invalid or Expired Token");
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Invalid or expired token\"}");
             return;
         }
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payment")
-@CrossOrigin("*")
+@CrossOrigin("https://mahastudy.in/")
 public class PaymentController {
 
     @Autowired
