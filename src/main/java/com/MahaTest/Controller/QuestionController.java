@@ -9,7 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin("https://mahastudy.in")
+//@CrossOrigin("https://mahastudy.in")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://mahastudy.in"
+})
 @RequiredArgsConstructor
 public class QuestionController {
 

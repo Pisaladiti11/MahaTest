@@ -6,7 +6,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/otp")
-@CrossOrigin("https://mahastudy.in")
+//@CrossOrigin("https://mahastudy.in")
+//@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://mahastudy.in"
+})
 public class AuthController {
 
     @Autowired

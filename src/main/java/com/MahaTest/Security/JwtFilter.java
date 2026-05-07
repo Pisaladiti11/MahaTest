@@ -23,12 +23,12 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // Centralized public endpoints
+    // ✅ Public endpoints list (easy to manage)
     private static final List<String> PUBLIC_URLS = List.of(
             "/login",
             "/register",
-            "/otp",
-            "/payment"
+            "/otp/send-otp",
+            "/otp/verify-otp"
     );
 
     @Override
@@ -39,8 +39,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        //  Skip JWT processing for public endpoints
-        if (PUBLIC_URLS.stream().anyMatch(path::startsWith)) {
+        // Skip public APIs
+        if (PUBLIC_URLS.contains(path)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -48,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-            //  No token → continue (Spring Security will handle)
+            //  No token
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -56,8 +56,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String token = authHeader.substring(7);
 
+            //  Extract mobile number
             String mobNo = jwtUtil.getMobNo(token);
 
+            // Validate & set authentication
             if (mobNo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 if (jwtUtil.validateToken(token, mobNo)) {
@@ -78,10 +80,9 @@ public class JwtFilter extends OncePerRequestFilter {
             }
 
         } catch (Exception e) {
-            //  Clean error handling
+            // : Handle invalid token gracefully
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"Invalid or expired token\"}");
+            response.getWriter().write("Invalid or Expired Token");
             return;
         }
 

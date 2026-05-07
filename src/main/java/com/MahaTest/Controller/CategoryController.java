@@ -10,7 +10,13 @@ import java.util.List;
 @RestController
 //@RequestMapping("/api/categories")
 @RequiredArgsConstructor
-@CrossOrigin("https://mahastudy.in")
+@RequestMapping("/categories")
+//@CrossOrigin("https://mahastudy.in")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://mahastudy.in"
+})
 public class CategoryController {
 
     private final CategoryService categoryService;

@@ -10,7 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payment")
-@CrossOrigin("https://mahastudy.in/")
+//@CrossOrigin(origins = "https://mahastudy.in/
+//@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "https://mahastudy.in"
+})
 public class PaymentController {
 
     @Autowired
@@ -21,7 +27,9 @@ public class PaymentController {
 
     // ✅ Create Order
     @PostMapping("/create-order")
-    public String createOrder(@RequestParam int amount) throws Exception {
+    public String createOrder() throws Exception {
+
+        int amount = 100; // FIXED amount
 
         Order order = paymentService.createOrder(amount);
 
