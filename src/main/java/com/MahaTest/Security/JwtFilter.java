@@ -32,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
     );
 
     @Override
+
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
@@ -40,11 +41,33 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getServletPath();
 
         // Skip public APIs
-        if (PUBLIC_URLS.contains(path)) {
+
+// PUBLIC ROUTES - BYPASS JWT
+        if (
+                path.startsWith("/login") ||
+                        path.startsWith("/register") ||
+
+                        // CATEGORY
+                        path.startsWith("/categories") ||
+
+                        // SUBJECT
+                        path.startsWith("/createSubject") ||
+                        path.startsWith("/GetAllSubjects") ||
+                        path.startsWith("/updatesubjectbyid") ||
+                        path.startsWith("/DeleteSubject") ||
+
+                        // SECTION
+                        path.startsWith("/sections") ||
+
+                        // OTP
+                        path.startsWith("/otp") ||
+
+                        // PAYMENT
+                        path.startsWith("/payment")
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
-
         try {
             String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 

@@ -29,15 +29,13 @@ public class SecurityConfig {
                         .requestMatchers("/otp/send", "/otp/verify").permitAll()
 
                         .requestMatchers("/users/**").permitAll()
-                        .requestMatchers(
-                                "/SaveCategory",
-                                "/GetAllCategories",
-                                "/DeleteCategory/**"
-                        ).permitAll()
+                        .requestMatchers("/categories/**").permitAll()
                         .requestMatchers(
                                 "/createSubject",
                                 "/GetAllSubjects",
-                                "/DeleteSubject/**"
+                                "/updatesubjectbyid/**",
+                                "/DeleteSubject/**",
+                                "/sections/**"
                         ).permitAll()
                         .requestMatchers("/payment/**").permitAll()
 

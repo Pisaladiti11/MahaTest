@@ -13,7 +13,9 @@ import java.util.List;
 @CrossOrigin(origins = {
         "http://localhost:5173",
         "http://localhost:5174",
-        "https://mahastudy.in"
+        "https://mahastudy.in",
+        "http://localhost:5175",
+
 })
 @RequiredArgsConstructor
 public class SubjectController {
