@@ -26,11 +26,19 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //  Public APIs
                         .requestMatchers("/login", "/register").permitAll()
-                        .requestMatchers("/otp/send-otp", "/otp/verify-otp").permitAll()
+                        .requestMatchers("/otp/send", "/otp/verify").permitAll()
 
                         .requestMatchers("/users/**").permitAll()
-                        .requestMatchers("/SaveCategory", "/GetAllCategories").permitAll()
-                        .requestMatchers("/createSubject", "/GetAllSubjects").permitAll()
+                        .requestMatchers(
+                                "/SaveCategory",
+                                "/GetAllCategories",
+                                "/DeleteCategory/**"
+                        ).permitAll()
+                        .requestMatchers(
+                                "/createSubject",
+                                "/GetAllSubjects",
+                                "/DeleteSubject/**"
+                        ).permitAll()
                         .requestMatchers("/payment/**").permitAll()
 
                         //  Protected APIs

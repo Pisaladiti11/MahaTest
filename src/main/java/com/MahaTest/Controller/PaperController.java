@@ -27,7 +27,7 @@ public class PaperController {
     }
 
     //  Update
-    @PutMapping("getPaperById/{id}")
+    @PutMapping("/UpdatePaper/{id}")
     public ResponseEntity<Paper> update(
             @PathVariable Long id,
             @RequestBody Paper paper) {
