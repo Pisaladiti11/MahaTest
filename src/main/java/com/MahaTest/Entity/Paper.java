@@ -39,9 +39,13 @@ public class Paper {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
+   // @ManyToOne
+   // @JoinColumn(name = "subject_id", nullable = false)
+    //private Subject subject;
+
     @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @JoinColumn(name = "section_id", nullable = false)
+    private Section section;
 
     @OneToMany(mappedBy = "paper", cascade = CascadeType.ALL)
     @JsonIgnore

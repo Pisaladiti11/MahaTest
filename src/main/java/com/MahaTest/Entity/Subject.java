@@ -35,7 +35,13 @@ public class Subject {
     @JoinColumn(name = "test_series_id", nullable = false)
     private TestSeries testSeries;
 
+    // One Subject -> Many Sections
+
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Paper> papers;
+    private List<Section> sections;
+
+    /*@OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Paper> papers;*/
 }

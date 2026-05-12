@@ -1,9 +1,11 @@
 package com.MahaTest.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-        import lombok.Data;
+import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "sections")
@@ -22,4 +24,13 @@ public class Section {
     private boolean active = true;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", nullable = false)
+    private Subject subject;
+
+    // one section many papers
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Paper> papers;
 }
