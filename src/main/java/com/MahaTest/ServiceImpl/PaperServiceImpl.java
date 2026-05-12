@@ -1,8 +1,10 @@
 package com.MahaTest.ServiceImpl;
 
 import com.MahaTest.Entity.Paper;
+import com.MahaTest.Entity.Section;
 import com.MahaTest.Entity.Subject;
 import com.MahaTest.Repository.PaperRepository;
+import com.MahaTest.Repository.SectionRepository;
 import com.MahaTest.Repository.SubjectRepository;
 import com.MahaTest.Service.PaperService;
 import lombok.RequiredArgsConstructor;
@@ -15,73 +17,80 @@ import java.util.List;
 public class PaperServiceImpl implements PaperService {
 
     private final PaperRepository paperRepository;
-    private final SubjectRepository subjectRepository;
+    private final SectionRepository sectionRepository;
 
-    // Create
     @Override
     public Paper createPaper(Paper paper) {
 
-        Long subjectId = paper.getSubject().getId();
+        List<Long> sectionIds = paper.getSections()
+                .stream()
+                .map(Section::getId)
+                .toList();
 
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new RuntimeException("Subject not found with id: " + subjectId));
+        List<Section> sections =
+                sectionRepository.findAllById(sectionIds);
 
-        paper.setSubject(subject);
+        paper.setSections(sections);
 
         return paperRepository.save(paper);
     }
 
-    // Update
     @Override
     public Paper updatePaper(Long id, Paper paper) {
 
         Paper existing = paperRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paper not found with id: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Paper not found"));
 
         existing.setName(paper.getName());
         existing.setTotalQuestions(paper.getTotalQuestions());
         existing.setTotalMarks(paper.getTotalMarks());
         existing.setDurationMinutes(paper.getDurationMinutes());
         existing.setYear(paper.getYear());
+        existing.setDescription(paper.getDescription());
+        existing.setSubjectQuestion(paper.getSubjectQuestion());
         existing.setActive(paper.isActive());
 
-        // Update Subject if changed
-        Long subjectId = paper.getSubject().getId();
+        List<Long> sectionIds = paper.getSections()
+                .stream()
+                .map(Section::getId)
+                .toList();
 
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new RuntimeException("Subject not found with id: " + subjectId));
+        List<Section> sections =
+                sectionRepository.findAllById(sectionIds);
 
-        existing.setSubject(subject);
+        existing.setSections(sections);
 
         return paperRepository.save(existing);
     }
 
-    //  Get All
     @Override
     public List<Paper> getAllPapers() {
         return paperRepository.findAll();
     }
 
     @Override
-    public List<Paper> getPapersBySubjectId(Long subjectId) {
-        return paperRepository.findBySubjectId(subjectId);
+    public List<Paper> getPapersBySectionId(Long sectionId) {
+        return paperRepository.findBySections_Id(sectionId);
     }
 
-
-    // Get By id
     @Override
     public Paper getPaperById(Long id) {
         return paperRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paper not found with id: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Paper not found"));
     }
 
-    //  Delete
     @Override
     public void deletePaper(Long id) {
 
         Paper paper = paperRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paper not found with id: " + id));
+                .orElseThrow(() ->
+                        new RuntimeException("Paper not found"));
 
         paperRepository.delete(paper);
     }
 }
+
+
+

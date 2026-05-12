@@ -12,8 +12,7 @@ public interface PaperService {
 
     List<Paper> getAllPapers();
 
-    List<Paper> getPapersBySubjectId(Long subjectId);
-
+    List<Paper> getPapersBySectionId(Long sectionId);
 
     Paper getPaperById(Long id);
 

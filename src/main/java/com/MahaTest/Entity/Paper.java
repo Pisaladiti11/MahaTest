@@ -3,8 +3,6 @@ package com.MahaTest.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,8 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "papers")
 @Data
-@Getter
-@Setter
 public class Paper {
 
     @Id
@@ -21,7 +17,7 @@ public class Paper {
     private Long id;
 
     @Column(nullable = false)
-    private String name; // Paper 1, 2023 Pre
+    private String name;
 
     private Integer totalQuestions;
 
@@ -39,13 +35,14 @@ public class Paper {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-   // @ManyToOne
-   // @JoinColumn(name = "subject_id", nullable = false)
-    //private Subject subject;
-
-    @ManyToOne
-    @JoinColumn(name = "section_id", nullable = false)
-    private Section section;
+    // MULTIPLE SECTIONS
+    @ManyToMany
+    @JoinTable(
+            name = "paper_sections",
+            joinColumns = @JoinColumn(name = "paper_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id")
+    )
+    private List<Section> sections;
 
     @OneToMany(mappedBy = "paper", cascade = CascadeType.ALL)
     @JsonIgnore

@@ -37,9 +37,9 @@ public class Subject {
 
     // One Subject -> Many Sections
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Section> sections;
+   // @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
+    //@JsonIgnore
+    //private List<Section> sections;
 
     /*@OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     @JsonIgnore

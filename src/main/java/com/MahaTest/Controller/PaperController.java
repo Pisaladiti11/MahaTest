@@ -42,15 +42,15 @@ public class PaperController {
 
 
 
-     // GET BY SUBJECT ID
-    @GetMapping("/subject/{subjectId}")
-    public ResponseEntity<List<Paper>> getPapersBySubject(
-            @PathVariable Long subjectId) {
+     // GET BY SECTION ID
+     @GetMapping("/section/{sectionId}")
+     public ResponseEntity<List<Paper>> getPapersBySection(
+             @PathVariable Long sectionId) {
 
-        return ResponseEntity.ok(
-                paperService.getPapersBySubjectId(subjectId)
-        );
-    }
+         return ResponseEntity.ok(
+                 paperService.getPapersBySectionId(sectionId)
+         );
+     }
 
 
     // Get By id

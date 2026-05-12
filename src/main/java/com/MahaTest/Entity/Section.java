@@ -25,12 +25,12 @@ public class Section {
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+   // @ManyToOne
+    //@JoinColumn(name = "subject_id", nullable = false)
+    //private Subject subject;
 
     // one section many papers
-    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "sections")
     @JsonIgnore
     private List<Paper> papers;
 }
