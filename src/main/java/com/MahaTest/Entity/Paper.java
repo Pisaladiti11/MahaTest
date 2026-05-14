@@ -16,23 +16,55 @@ public class Paper {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Title
     @Column(nullable = false)
     private String name;
 
+    // Image URL or file name
+    private String image;
+
+    // Questions
     private Integer totalQuestions;
 
+    // Marks
     private Integer totalMarks;
 
+    // Duration in minutes
     private Integer durationMinutes;
 
+    // Attempt settings
+    private Boolean attempt = false;
+
+    private Integer maxAttempt;
+
+    // Result visibility
+    private Boolean result = false;
+
+    // Solved count
+    private Integer solved = 0;
+
+    // All result visible
+    private Boolean allResult = true;
+
+    // Download enabled
+    private Boolean downloadEnabled = true;
+
+    // Status
+    private boolean active = true;
+
+    // Year
     private String year;
 
     private String description;
 
     private String subjectQuestion;
 
-    private boolean active = true;
+    // Exam start & end date
+    private LocalDateTime startDate;
 
+    private LocalDateTime endDate;
+
+    // Created time
     private LocalDateTime createdAt = LocalDateTime.now();
 
     // MULTIPLE SECTIONS
@@ -44,6 +76,7 @@ public class Paper {
     )
     private List<Section> sections;
 
+    // Questions
     @OneToMany(mappedBy = "paper", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Question> questions;

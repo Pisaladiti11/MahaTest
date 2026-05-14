@@ -2,10 +2,8 @@ package com.MahaTest.ServiceImpl;
 
 import com.MahaTest.Entity.Paper;
 import com.MahaTest.Entity.Section;
-import com.MahaTest.Entity.Subject;
 import com.MahaTest.Repository.PaperRepository;
 import com.MahaTest.Repository.SectionRepository;
-import com.MahaTest.Repository.SubjectRepository;
 import com.MahaTest.Service.PaperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,15 +40,58 @@ public class PaperServiceImpl implements PaperService {
                 .orElseThrow(() ->
                         new RuntimeException("Paper not found"));
 
+        // Basic Fields
         existing.setName(paper.getName());
-        existing.setTotalQuestions(paper.getTotalQuestions());
-        existing.setTotalMarks(paper.getTotalMarks());
-        existing.setDurationMinutes(paper.getDurationMinutes());
-        existing.setYear(paper.getYear());
-        existing.setDescription(paper.getDescription());
-        existing.setSubjectQuestion(paper.getSubjectQuestion());
-        existing.setActive(paper.isActive());
 
+        existing.setImage(paper.getImage());
+
+        existing.setTotalQuestions(
+                paper.getTotalQuestions());
+
+        existing.setTotalMarks(
+                paper.getTotalMarks());
+
+        existing.setDurationMinutes(
+                paper.getDurationMinutes());
+
+        existing.setYear(
+                paper.getYear());
+
+        existing.setDescription(
+                paper.getDescription());
+
+        existing.setSubjectQuestion(
+                paper.getSubjectQuestion());
+
+        existing.setActive(
+                paper.isActive());
+
+        // New Fields
+        existing.setAttempt(
+                paper.getAttempt());
+
+        existing.setMaxAttempt(
+                paper.getMaxAttempt());
+
+        existing.setResult(
+                paper.getResult());
+
+        existing.setSolved(
+                paper.getSolved());
+
+        existing.setAllResult(
+                paper.getAllResult());
+
+        existing.setDownloadEnabled(
+                paper.getDownloadEnabled());
+
+        existing.setStartDate(
+                paper.getStartDate());
+
+        existing.setEndDate(
+                paper.getEndDate());
+
+        // Sections
         List<Long> sectionIds = paper.getSections()
                 .stream()
                 .map(Section::getId)
@@ -76,6 +117,7 @@ public class PaperServiceImpl implements PaperService {
 
     @Override
     public Paper getPaperById(Long id) {
+
         return paperRepository.findById(id)
                 .orElseThrow(() ->
                         new RuntimeException("Paper not found"));
@@ -91,6 +133,3 @@ public class PaperServiceImpl implements PaperService {
         paperRepository.delete(paper);
     }
 }
-
-
-
