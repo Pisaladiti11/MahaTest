@@ -38,6 +38,8 @@ public class TestSeries {
 
     private  String features;
 
+    private String testseriesImageUrl;
+
     private LocalDateTime createdAt = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

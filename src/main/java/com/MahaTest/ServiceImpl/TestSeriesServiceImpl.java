@@ -41,12 +41,19 @@ public class TestSeriesServiceImpl implements TestSeriesService {
 
         existing.setName(testSeries.getName());
         existing.setExamType(testSeries.getExamType());
-        //existing.setTotalMarks(testSeries.getTotalMarks());
         existing.setDurationMinutes(testSeries.getDurationMinutes());
         existing.setActive(testSeries.isActive());
 
-        // Update Category if changed
+        // Added Fields
+        existing.setMrp(testSeries.getMrp());
+        existing.setPrice(testSeries.getPrice());
+        existing.setDescription(testSeries.getDescription());
+        existing.setFeatures(testSeries.getFeatures());
+        existing.setTestseriesImageUrl(testSeries.getTestseriesImageUrl());
+
+        // Update Category
         Long categoryId = testSeries.getCategory().getId();
+
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new RuntimeException("Category not found with id: " + categoryId));
 
@@ -54,7 +61,6 @@ public class TestSeriesServiceImpl implements TestSeriesService {
 
         return testSeriesRepository.save(existing);
     }
-
     // Get All
     @Override
     public List<TestSeries> getAllTestSeries() {
