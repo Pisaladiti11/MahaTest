@@ -15,7 +15,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -23,16 +22,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;
 
-    // ✅ Public endpoints list (easy to manage)
-    private static final List<String> PUBLIC_URLS = List.of(
-            "/login",
-            "/register",
-            "/otp/send",
-            "/otp/verify"
-    );
-
     @Override
-
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
@@ -40,72 +30,71 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // Skip public APIs
-
-// PUBLIC ROUTES - BYPASS JWT
+        // PUBLIC APIs
         if (
                 path.startsWith("/login") ||
                         path.startsWith("/register") ||
-
-                        // CATEGORY
-                        path.startsWith("/categories") ||
-
-                        // SUBJECT
-                        path.startsWith("/createSubject") ||
-                        path.startsWith("/GetAllSubjects") ||
-                        path.startsWith("/updatesubjectbyid") ||
-                        path.startsWith("/DeleteSubject") ||
-
-                        // SECTION
-                        path.startsWith("/sections") ||
-
-                        // OTP
                         path.startsWith("/otp") ||
-
-                        // PAYMENT
-                        path.startsWith("/payment")
+                        path.startsWith("/admin/login")
         ) {
+
             filterChain.doFilter(request, response);
             return;
         }
-        try {
-            String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-            //  No token
-            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+        try {
+
+            String authHeader =
+                    request.getHeader(HttpHeaders.AUTHORIZATION);
+
+            // NO TOKEN
+            if (authHeader == null ||
+                    !authHeader.startsWith("Bearer ")) {
+
                 filterChain.doFilter(request, response);
                 return;
             }
 
             String token = authHeader.substring(7);
 
-            //  Extract mobile number
-            String mobNo = jwtUtil.getMobNo(token);
+            // GET USERNAME FROM TOKEN
+            String username = jwtUtil.getMobNo(token);
 
-            // Validate & set authentication
-            if (mobNo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // VALIDATE TOKEN
+            if (username != null &&
+                    SecurityContextHolder
+                            .getContext()
+                            .getAuthentication() == null) {
 
-                if (jwtUtil.validateToken(token, mobNo)) {
+                if (jwtUtil.validateToken(token, username)) {
 
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(
-                                    mobNo,
+                                    username,
                                     null,
                                     Collections.emptyList()
                             );
 
                     authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request)
                     );
 
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    SecurityContextHolder
+                            .getContext()
+                            .setAuthentication(authToken);
                 }
             }
 
         } catch (Exception e) {
-            // : Handle invalid token gracefully
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("Invalid or Expired Token");
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            response.getWriter()
+                    .write("Invalid or Expired Token");
+
             return;
         }
 

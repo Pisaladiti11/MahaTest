@@ -17,7 +17,8 @@ public class SectionController {
 
     // SAVE SECTION
     @PostMapping
-    public Section saveSection(@RequestBody Section section) {
+    public Section saveSection
+    (@RequestBody Section section) {
         return sectionService.saveSection(section);
     }
 
@@ -29,7 +30,8 @@ public class SectionController {
 
     // GET SECTION BY ID
     @GetMapping("/{id}")
-    public Section getSectionById(@PathVariable Long id) {
+    public Section getSectionById
+    (@PathVariable Long id) {
         return sectionService.getSectionById(id);
     }
 
