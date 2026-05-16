@@ -45,6 +45,26 @@ public class QuestionController {
     public ResponseEntity<Question> getById(@PathVariable Long id) {
         return ResponseEntity.ok(questionService.getQuestionById(id));
     }
+    // Get Question Count By Section
+    @GetMapping("/questioncountbysection/{sectionName}")
+    public ResponseEntity<?> getQuestionCountBySection(
+            @PathVariable String sectionName) {
+
+        long count = questionService.getAllQuestions()
+                .stream()
+                .filter(q ->
+                        q.getSection() != null &&
+                                q.getSection().getName() != null &&
+                                q.getSection().getName()
+                                        .equalsIgnoreCase(sectionName)
+                )
+                .count();
+
+        return ResponseEntity.ok(
+                Map.of("count", count)
+        );
+    }
+
 
     //  Delete
     @DeleteMapping("/DeleteQuestion/{id}")
