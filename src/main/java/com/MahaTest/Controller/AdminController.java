@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/admin")
 @CrossOrigin(origins = {
@@ -26,35 +29,26 @@ public class AdminController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(
-            @RequestBody AdminLoginRequest request
+    public ResponseEntity<?> adminLogin(
+            @RequestBody Map<String, String> request
     ) {
 
-        UserEntity admin = userRepository
-                .findByEmail(request.getEmail())
-                .orElse(null);
+        String email = request.get("email");
+        String password = request.get("password");
 
-        // ADMIN NOT FOUND
-        if (admin == null) {
+        if(email.equals("admin@pjsofttech.com")
+                && password.equals("admin")) {
 
-            return ResponseEntity
-                    .badRequest()
-                    .body("Admin not found");
+            String token = jwtUtil.generateToken(email);
+
+            Map<String, String> response = new HashMap<>();
+
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
         }
 
-        // PASSWORD CHECK
-        if (!admin.getPassword().equals(request.getPassword())) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body("Invalid Password");
-        }
-
-        // GENERATE JWT TOKEN
-        String token = jwtUtil.generateToken(admin.getEmail());
-
-        return ResponseEntity.ok(
-                new LoginResponse(token)
-        );
+        return ResponseEntity.status(401)
+                .body("Invalid Credentials");
     }
 }
