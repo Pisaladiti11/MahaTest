@@ -40,6 +40,7 @@ public class SecurityConfig {
 
                         //PAYMENT Create-Order API
                         .requestMatchers(HttpMethod.POST, "/payment/create-order").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/payment/verify").permitAll()
 
                         // TOKEN REQUIRED
                         .requestMatchers(HttpMethod.POST, "/**").authenticated()
