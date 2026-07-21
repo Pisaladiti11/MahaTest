@@ -35,7 +35,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 path.startsWith("/login") ||
                         path.startsWith("/register") ||
                         path.startsWith("/otp") ||
-                        path.startsWith("/admin/login")
+                        path.startsWith("/admin/login") ||
+                        path.startsWith("/payment/create-order")
         ) {
 
             filterChain.doFilter(request, response);

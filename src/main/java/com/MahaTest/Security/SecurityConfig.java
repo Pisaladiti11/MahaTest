@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +25,7 @@ public class SecurityConfig {
     ) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> {})
 
                 .authorizeHttpRequests(auth -> auth
@@ -36,6 +37,9 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/register").permitAll()
                         .requestMatchers("/otp/**").permitAll()
                         .requestMatchers("/admin/login").permitAll()
+
+                        //PAYMENT Create-Order API
+                        .requestMatchers(HttpMethod.POST, "/payment/create-order").permitAll()
 
                         // TOKEN REQUIRED
                         .requestMatchers(HttpMethod.POST, "/**").authenticated()
