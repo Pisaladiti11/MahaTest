@@ -38,6 +38,8 @@ public class SecurityConfig {
                         .requestMatchers("/otp/**").permitAll()
                         .requestMatchers("/admin/login").permitAll()
 
+                        .requestMatchers("/actuator/**").permitAll()
+
                         //PAYMENT Create-Order API
                         .requestMatchers(HttpMethod.POST, "/payment/create-order").permitAll()
                         .requestMatchers(HttpMethod.POST, "/payment/verify").permitAll()
